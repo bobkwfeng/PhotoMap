@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5001A3051D42BE7500087A78 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5001A3021D42BE7500087A78 /* FBSDKCoreKit.framework */; };
+		5001A3061D42BE7500087A78 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5001A3021D42BE7500087A78 /* FBSDKCoreKit.framework */; };
+		5001A3071D42BE7500087A78 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5001A3021D42BE7500087A78 /* FBSDKCoreKit.framework */; };
+		5001A3081D42BE7500087A78 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5001A3031D42BE7500087A78 /* FBSDKLoginKit.framework */; };
+		5001A3091D42BE7500087A78 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5001A3031D42BE7500087A78 /* FBSDKLoginKit.framework */; };
+		5001A30A1D42BE7500087A78 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5001A3031D42BE7500087A78 /* FBSDKLoginKit.framework */; };
+		5001A30B1D42BE7500087A78 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5001A3041D42BE7500087A78 /* FBSDKShareKit.framework */; };
+		5001A30C1D42BE7500087A78 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5001A3041D42BE7500087A78 /* FBSDKShareKit.framework */; };
+		5001A30D1D42BE7500087A78 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5001A3041D42BE7500087A78 /* FBSDKShareKit.framework */; };
 		9D82D22C1D3EC3FA009CAF1B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D82D22B1D3EC3FA009CAF1B /* main.m */; };
 		9D82D22F1D3EC3FA009CAF1B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D82D22E1D3EC3FA009CAF1B /* AppDelegate.m */; };
 		9D82D2321D3EC3FA009CAF1B /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D82D2311D3EC3FA009CAF1B /* FirstViewController.m */; };
@@ -19,6 +28,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		5001A32E1D42C2F900087A78 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9D82D21F1D3EC3FA009CAF1B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5001A3111D42C2F900087A78;
+			remoteInfo = PhotoMap;
+		};
+		5001A3391D42C2F900087A78 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9D82D21F1D3EC3FA009CAF1B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5001A3111D42C2F900087A78;
+			remoteInfo = PhotoMap;
+		};
 		9D82D2441D3EC3FA009CAF1B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9D82D21F1D3EC3FA009CAF1B /* Project object */;
@@ -36,6 +59,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5001A3021D42BE7500087A78 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		5001A3031D42BE7500087A78 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		5001A3041D42BE7500087A78 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
+		5001A3121D42C2F900087A78 /* PhotoMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5001A32D1D42C2F900087A78 /* PhotoMapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoMapTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5001A3381D42C2F900087A78 /* PhotoMapUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoMapUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D82D2271D3EC3FA009CAF1B /* PhotoMapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoMapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D82D22B1D3EC3FA009CAF1B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9D82D22D1D3EC3FA009CAF1B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -57,10 +86,34 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		5001A30F1D42C2F900087A78 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5001A32A1D42C2F900087A78 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5001A3351D42C2F900087A78 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9D82D2241D3EC3FA009CAF1B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5001A3081D42BE7500087A78 /* FBSDKLoginKit.framework in Frameworks */,
+				5001A3051D42BE7500087A78 /* FBSDKCoreKit.framework in Frameworks */,
+				5001A30B1D42BE7500087A78 /* FBSDKShareKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,6 +121,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5001A3091D42BE7500087A78 /* FBSDKLoginKit.framework in Frameworks */,
+				5001A3061D42BE7500087A78 /* FBSDKCoreKit.framework in Frameworks */,
+				5001A30C1D42BE7500087A78 /* FBSDKShareKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,15 +131,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5001A30A1D42BE7500087A78 /* FBSDKLoginKit.framework in Frameworks */,
+				5001A3071D42BE7500087A78 /* FBSDKCoreKit.framework in Frameworks */,
+				5001A30D1D42BE7500087A78 /* FBSDKShareKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5001A3011D42BE3C00087A78 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5001A3021D42BE7500087A78 /* FBSDKCoreKit.framework */,
+				5001A3031D42BE7500087A78 /* FBSDKLoginKit.framework */,
+				5001A3041D42BE7500087A78 /* FBSDKShareKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		9D82D21E1D3EC3FA009CAF1B = {
 			isa = PBXGroup;
 			children = (
+				5001A3011D42BE3C00087A78 /* Frameworks */,
 				9D82D2291D3EC3FA009CAF1B /* PhotoMapp */,
 				9D82D2461D3EC3FA009CAF1B /* PhotoMappTests */,
 				9D82D2511D3EC3FA009CAF1B /* PhotoMappUITests */,
@@ -97,6 +167,9 @@
 				9D82D2271D3EC3FA009CAF1B /* PhotoMapp.app */,
 				9D82D2431D3EC3FA009CAF1B /* PhotoMappTests.xctest */,
 				9D82D24E1D3EC3FA009CAF1B /* PhotoMappUITests.xctest */,
+				5001A3121D42C2F900087A78 /* PhotoMap.app */,
+				5001A32D1D42C2F900087A78 /* PhotoMapTests.xctest */,
+				5001A3381D42C2F900087A78 /* PhotoMapUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -148,6 +221,59 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		5001A3111D42C2F900087A78 /* PhotoMap */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5001A33F1D42C2F900087A78 /* Build configuration list for PBXNativeTarget "PhotoMap" */;
+			buildPhases = (
+				5001A30E1D42C2F900087A78 /* Sources */,
+				5001A30F1D42C2F900087A78 /* Frameworks */,
+				5001A3101D42C2F900087A78 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PhotoMap;
+			productName = PhotoMap;
+			productReference = 5001A3121D42C2F900087A78 /* PhotoMap.app */;
+			productType = "com.apple.product-type.application";
+		};
+		5001A32C1D42C2F900087A78 /* PhotoMapTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5001A3421D42C2F900087A78 /* Build configuration list for PBXNativeTarget "PhotoMapTests" */;
+			buildPhases = (
+				5001A3291D42C2F900087A78 /* Sources */,
+				5001A32A1D42C2F900087A78 /* Frameworks */,
+				5001A32B1D42C2F900087A78 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5001A32F1D42C2F900087A78 /* PBXTargetDependency */,
+			);
+			name = PhotoMapTests;
+			productName = PhotoMapTests;
+			productReference = 5001A32D1D42C2F900087A78 /* PhotoMapTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		5001A3371D42C2F900087A78 /* PhotoMapUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5001A3451D42C2F900087A78 /* Build configuration list for PBXNativeTarget "PhotoMapUITests" */;
+			buildPhases = (
+				5001A3341D42C2F900087A78 /* Sources */,
+				5001A3351D42C2F900087A78 /* Frameworks */,
+				5001A3361D42C2F900087A78 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5001A33A1D42C2F900087A78 /* PBXTargetDependency */,
+			);
+			name = PhotoMapUITests;
+			productName = PhotoMapUITests;
+			productReference = 5001A3381D42C2F900087A78 /* PhotoMapUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		9D82D2261D3EC3FA009CAF1B /* PhotoMapp */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9D82D2571D3EC3FA009CAF1B /* Build configuration list for PBXNativeTarget "PhotoMapp" */;
@@ -210,6 +336,17 @@
 				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = "Bob Feng";
 				TargetAttributes = {
+					5001A3111D42C2F900087A78 = {
+						CreatedOnToolsVersion = 7.2.1;
+					};
+					5001A32C1D42C2F900087A78 = {
+						CreatedOnToolsVersion = 7.2.1;
+						TestTargetID = 5001A3111D42C2F900087A78;
+					};
+					5001A3371D42C2F900087A78 = {
+						CreatedOnToolsVersion = 7.2.1;
+						TestTargetID = 5001A3111D42C2F900087A78;
+					};
 					9D82D2261D3EC3FA009CAF1B = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
@@ -239,11 +376,35 @@
 				9D82D2261D3EC3FA009CAF1B /* PhotoMapp */,
 				9D82D2421D3EC3FA009CAF1B /* PhotoMappTests */,
 				9D82D24D1D3EC3FA009CAF1B /* PhotoMappUITests */,
+				5001A3111D42C2F900087A78 /* PhotoMap */,
+				5001A32C1D42C2F900087A78 /* PhotoMapTests */,
+				5001A3371D42C2F900087A78 /* PhotoMapUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		5001A3101D42C2F900087A78 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5001A32B1D42C2F900087A78 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5001A3361D42C2F900087A78 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9D82D2251D3EC3FA009CAF1B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -271,6 +432,27 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		5001A30E1D42C2F900087A78 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5001A3291D42C2F900087A78 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5001A3341D42C2F900087A78 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9D82D2231D3EC3FA009CAF1B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -301,6 +483,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		5001A32F1D42C2F900087A78 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5001A3111D42C2F900087A78 /* PhotoMap */;
+			targetProxy = 5001A32E1D42C2F900087A78 /* PBXContainerItemProxy */;
+		};
+		5001A33A1D42C2F900087A78 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5001A3111D42C2F900087A78 /* PhotoMap */;
+			targetProxy = 5001A3391D42C2F900087A78 /* PBXContainerItemProxy */;
+		};
 		9D82D2451D3EC3FA009CAF1B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 9D82D2261D3EC3FA009CAF1B /* PhotoMapp */;
@@ -333,6 +525,82 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		5001A3401D42C2F900087A78 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = PhotoMap/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = bob.PhotoMap;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		5001A3411D42C2F900087A78 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = PhotoMap/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = bob.PhotoMap;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		5001A3431D42C2F900087A78 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = PhotoMapTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = bob.PhotoMapTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PhotoMap.app/PhotoMap";
+			};
+			name = Debug;
+		};
+		5001A3441D42C2F900087A78 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = PhotoMapTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = bob.PhotoMapTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PhotoMap.app/PhotoMap";
+			};
+			name = Release;
+		};
+		5001A3461D42C2F900087A78 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = PhotoMapUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = bob.PhotoMapUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = PhotoMap;
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		5001A3471D42C2F900087A78 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = PhotoMapUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = bob.PhotoMapUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = PhotoMap;
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
 		9D82D2551D3EC3FA009CAF1B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -419,10 +687,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = PhotoMapp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Bob.PhotoMapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -430,10 +704,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = PhotoMapp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Bob.PhotoMapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -441,7 +721,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = PhotoMappTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Bob.PhotoMappTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -453,7 +738,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = PhotoMappTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Bob.PhotoMappTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -464,10 +754,16 @@
 		9D82D25E1D3EC3FA009CAF1B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = PhotoMappUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Bob.PhotoMappUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos9.2;
 				TEST_TARGET_NAME = PhotoMapp;
 			};
 			name = Debug;
@@ -475,10 +771,16 @@
 		9D82D25F1D3EC3FA009CAF1B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = PhotoMappUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Bob.PhotoMappUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos9.2;
 				TEST_TARGET_NAME = PhotoMapp;
 			};
 			name = Release;
@@ -486,6 +788,30 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		5001A33F1D42C2F900087A78 /* Build configuration list for PBXNativeTarget "PhotoMap" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5001A3401D42C2F900087A78 /* Debug */,
+				5001A3411D42C2F900087A78 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		5001A3421D42C2F900087A78 /* Build configuration list for PBXNativeTarget "PhotoMapTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5001A3431D42C2F900087A78 /* Debug */,
+				5001A3441D42C2F900087A78 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		5001A3451D42C2F900087A78 /* Build configuration list for PBXNativeTarget "PhotoMapUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5001A3461D42C2F900087A78 /* Debug */,
+				5001A3471D42C2F900087A78 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		9D82D2221D3EC3FA009CAF1B /* Build configuration list for PBXProject "PhotoMapp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -502,6 +828,7 @@
 				9D82D2591D3EC3FA009CAF1B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9D82D25A1D3EC3FA009CAF1B /* Build configuration list for PBXNativeTarget "PhotoMappTests" */ = {
 			isa = XCConfigurationList;
@@ -510,6 +837,7 @@
 				9D82D25C1D3EC3FA009CAF1B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9D82D25D1D3EC3FA009CAF1B /* Build configuration list for PBXNativeTarget "PhotoMappUITests" */ = {
 			isa = XCConfigurationList;
@@ -518,6 +846,7 @@
 				9D82D25F1D3EC3FA009CAF1B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
