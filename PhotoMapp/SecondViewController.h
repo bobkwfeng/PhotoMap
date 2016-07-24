@@ -10,6 +10,13 @@
 
 @interface SecondViewController : UIViewController
 
+@property (strong, nonatomic) IBOutlet UIImageView *imageView;
+@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (strong, nonatomic) IBOutlet UITextView *photoInfor;
+
+- (IBAction)takePhoto:(UIButton *)sender;- (IBAction)selectPhoto:(UIButton *)sender;
+
+- (IBAction)shareIt:(UIButton *)sender;
 
 @end
 

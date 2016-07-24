@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>PhotoMap.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 		<key>PhotoMapp.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -12,6 +17,21 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>5001A3111D42C2F900087A78</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5001A32C1D42C2F900087A78</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5001A3371D42C2F900087A78</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>9D82D2261D3EC3FA009CAF1B</key>
 		<dict>
 			<key>primary</key>
