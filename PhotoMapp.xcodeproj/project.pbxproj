@@ -21,6 +21,9 @@
 		9D82D23D1D3EC3FA009CAF1B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D82D23B1D3EC3FA009CAF1B /* LaunchScreen.storyboard */; };
 		9D82D2481D3EC3FA009CAF1B /* PhotoMappTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D82D2471D3EC3FA009CAF1B /* PhotoMappTests.m */; };
 		9D82D2531D3EC3FA009CAF1B /* PhotoMappUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D82D2521D3EC3FA009CAF1B /* PhotoMappUITests.m */; };
+		9D8DCF961D49333200D177EF /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D8DCF951D49333200D177EF /* CoreLocation.framework */; };
+		9D8DCF981D49333A00D177EF /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D8DCF971D49333A00D177EF /* MapKit.framework */; };
+		9D8DCF9B1D49370F00D177EF /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8DCF9A1D49370F00D177EF /* MapViewController.m */; };
 		9DAAB6131D453EF500198A81 /* SIPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DAAB6121D453EF500198A81 /* SIPhoto.m */; };
 /* End PBXBuildFile section */
 
@@ -82,6 +85,10 @@
 		9D82D24E1D3EC3FA009CAF1B /* PhotoMappUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoMappUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D82D2521D3EC3FA009CAF1B /* PhotoMappUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoMappUITests.m; sourceTree = "<group>"; };
 		9D82D2541D3EC3FA009CAF1B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9D8DCF951D49333200D177EF /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		9D8DCF971D49333A00D177EF /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		9D8DCF991D49370F00D177EF /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
+		9D8DCF9A1D49370F00D177EF /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		9DAAB6111D453EF500198A81 /* SIPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SIPhoto.h; sourceTree = "<group>"; };
 		9DAAB6121D453EF500198A81 /* SIPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SIPhoto.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -112,6 +119,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D8DCF981D49333A00D177EF /* MapKit.framework in Frameworks */,
+				9D8DCF961D49333200D177EF /* CoreLocation.framework in Frameworks */,
 				9D6ED0381D42CB3E004EB537 /* FBSDKLoginKit.framework in Frameworks */,
 				9D6ED0371D42CB3E004EB537 /* FBSDKCoreKit.framework in Frameworks */,
 				9D6ED0391D42CB3E004EB537 /* FBSDKShareKit.framework in Frameworks */,
@@ -139,6 +148,8 @@
 		5001A3011D42BE3C00087A78 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9D8DCF971D49333A00D177EF /* MapKit.framework */,
+				9D8DCF951D49333200D177EF /* CoreLocation.framework */,
 				9D6ED03A1D42CD6B004EB537 /* Bolts.framework */,
 				9D6ED0341D42CB3E004EB537 /* FBSDKCoreKit.framework */,
 				9D6ED0351D42CB3E004EB537 /* FBSDKLoginKit.framework */,
@@ -188,6 +199,8 @@
 				9D82D23B1D3EC3FA009CAF1B /* LaunchScreen.storyboard */,
 				9D82D23E1D3EC3FA009CAF1B /* Info.plist */,
 				9D82D22A1D3EC3FA009CAF1B /* Supporting Files */,
+				9D8DCF991D49370F00D177EF /* MapViewController.h */,
+				9D8DCF9A1D49370F00D177EF /* MapViewController.m */,
 			);
 			path = PhotoMapp;
 			sourceTree = "<group>";
@@ -459,6 +472,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D8DCF9B1D49370F00D177EF /* MapViewController.m in Sources */,
 				9D82D2351D3EC3FA009CAF1B /* SecondViewController.m in Sources */,
 				9D82D22F1D3EC3FA009CAF1B /* AppDelegate.m in Sources */,
 				9DAAB6131D453EF500198A81 /* SIPhoto.m in Sources */,

@@ -7,12 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface SecondViewController : UIViewController
+@interface SecondViewController : UIViewController <UITextFieldDelegate>
 
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
-@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (strong, nonatomic) IBOutlet UITextView *photoInfor;
+
+@property (strong, nonatomic) IBOutlet UITextField *photoInfor;
 
 - (IBAction)takePhoto:(UIButton *)sender;- (IBAction)selectPhoto:(UIButton *)sender;
 

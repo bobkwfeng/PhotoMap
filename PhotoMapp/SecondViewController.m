@@ -15,7 +15,9 @@
 #import <AssetsLibrary/ALAssetRepresentation.h>
 #import <ImageIO/CGImageSource.h>
 #import <ImageIO/CGImageProperties.h>
+#import "MapViewController.h"
 @import ImageIO;
+
 
 @interface SecondViewController ()
 
@@ -23,9 +25,15 @@
 
 @implementation SecondViewController
 
+static NSString *la;
+static NSString *lo;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
+    // This is for the keyboard can disappear
+    self.photoInfor.delegate = self;
     
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         
@@ -38,14 +46,39 @@
         [myAlertView show];
         
     }
+    
+    // This is to handle the image clicked
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapDetected)];
+    singleTap.numberOfTapsRequired = 1;
+    [self.imageView setUserInteractionEnabled:YES];
+    [self.imageView addGestureRecognizer:singleTap];
+    
+    // This is the GPS information
+    
 
 }
+
+// This is to handle the image clicked
+-(void)tapDetected{
+    NSLog(@"single Tap on imageview");
+}
+
+
 
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
     
 }
+
+
+// This is trying to make the keyboard disappear.
+
+-(BOOL) textFieldShouldReturn:(UITextField *)textField{
+    [textField resignFirstResponder];
+    return YES;
+}
+
 
 
 - (void)didReceiveMemoryWarning {
@@ -74,14 +107,6 @@
 
 }
 
-- (IBAction)shareIt:(UIButton *)sender {
-    
-   
-}
-
-
-
-// The helper methon for share button
 
 
 
@@ -92,98 +117,44 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     
     UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
-    self.imageView.image = chosenImage;
+    //self.imageView.image = chosenImage;
+    
+    // This is trying to fill the image as it is.
+    [self.imageView setImage:chosenImage];
+    self.imageView.frame = CGRectMake(self.imageView.frame.origin.x, self.imageView.frame.origin.y,
+                                 chosenImage.size.width, chosenImage.size.height);
     
     [picker dismissViewControllerAnimated:YES completion:NULL];
     
     
     
     // This is what is going to be shared on facebook
+    UIImage *image = info[UIImagePickerControllerOriginalImage];
+    
     FBSDKSharePhoto *photo = [[FBSDKSharePhoto alloc] init];
-    photo.image = chosenImage;
+    photo.image = image;
     photo.userGenerated = YES;
     FBSDKSharePhotoContent *content = [[FBSDKSharePhotoContent alloc] init];
     content.photos = @[photo];
     
+    FBSDKShareButton *button = [[FBSDKShareButton alloc] init];
+    button.shareContent = content;
+    
+    //Adjust the position of the button
+    CGPoint sharePosition;
+    sharePosition.x = 180;
+    sharePosition.y = 550;
+    button.center = sharePosition;
+    [self.view addSubview:button];
+    
+    
+//    [FBSDKShareDialog showFromViewController:self
+//                                 withContent:content
+//                                    delegate:nil];
+    
     // Share the link example
-    FBSDKShareLinkContent *content2 = [[FBSDKShareLinkContent alloc] init];
-    content2.contentURL = [NSURL URLWithString:@"http://developers.facebook.com"];
-    [FBSDKShareDialog showFromViewController:self
-                                 withContent:content
-                                    delegate:nil];
-    
-    
-    // This is for getting the photo's information
-//    ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
-//    [library assetForURL:[info objectForKey:UIImagePickerControllerReferenceURL]
-//             resultBlock:^(ALAsset *asset) {
-//                 
-//                 ALAssetRepresentation *image_representation = [asset defaultRepresentation];
-//                 
-//                 // create a buffer to hold image data
-//                 uint8_t *buffer = (Byte*)malloc(image_representation.size);
-//                 NSUInteger length = [image_representation getBytes:buffer fromOffset: 0.0  length:image_representation.size error:nil];
-//                 
-//                 if (length != 0)  {
-//                     
-//                     // buffer -> NSData object; free buffer afterwards
-//                     NSData *adata = [[NSData alloc] initWithBytesNoCopy:buffer length:image_representation.size freeWhenDone:YES];
-//                     
-//                     // identify image type (jpeg, png, RAW file, ...) using UTI hint
-//                     NSDictionary* sourceOptionsDict = [NSDictionary dictionaryWithObjectsAndKeys:(id)[image_representation UTI] ,kCGImageSourceTypeIdentifierHint,nil];
-//                     
-//                     // create CGImageSource with NSData
-//                     CGImageSourceRef sourceRef = CGImageSourceCreateWithData((__bridge CFDataRef) adata,  (__bridge CFDictionaryRef) sourceOptionsDict);
-//                     
-//                     // get imagePropertiesDictionary
-//                     CFDictionaryRef imagePropertiesDictionary;
-//                     imagePropertiesDictionary = CGImageSourceCopyPropertiesAtIndex(sourceRef,0, NULL);
-//                     
-//                     // get exif data
-//                     CFDictionaryRef exif = (CFDictionaryRef)CFDictionaryGetValue(imagePropertiesDictionary, kCGImagePropertyExifDictionary);
-//                     NSDictionary *exif_dict = (__bridge NSDictionary*)exif;
-//                     NSLog(@"exif_dict: %@",exif_dict);
-//                     
-//                     // save image WITH meta data
-//                     NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-//                     NSURL *fileURL = nil;
-//                     CGImageRef imageRef = CGImageSourceCreateImageAtIndex(sourceRef, 0, imagePropertiesDictionary);
-//                     
-//                     if (![[sourceOptionsDict objectForKey:@"kCGImageSourceTypeIdentifierHint"] isEqualToString:@"public.tiff"])
-//                     {
-//                         fileURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/%@.%@",
-//                                                           documentsDirectory,
-//                                                           @"myimage",
-//                                                           [[[sourceOptionsDict objectForKey:@"kCGImageSourceTypeIdentifierHint"] componentsSeparatedByString:@"."] objectAtIndex:1]
-//                                                           ]];
-//                         
-//                         CGImageDestinationRef dr = CGImageDestinationCreateWithURL ((__bridge CFURLRef)fileURL,
-//                                                                                     (__bridge CFStringRef)[sourceOptionsDict objectForKey:@"kCGImageSourceTypeIdentifierHint"],
-//                                                                                     1,
-//                                                                                     NULL
-//                                                                                     );
-//                         CGImageDestinationAddImage(dr, imageRef, imagePropertiesDictionary);
-//                         CGImageDestinationFinalize(dr);
-//                         CFRelease(dr);
-//                     }
-//                     else
-//                     {
-//                         NSLog(@"no valid kCGImageSourceTypeIdentifierHint found …");
-//                     }
-//                     
-//                     // clean up
-//                     CFRelease(imageRef);
-//                     CFRelease(imagePropertiesDictionary);
-//                     CFRelease(sourceRef);
-//                 }
-//                 else {
-//                     NSLog(@"image_representation buffer length == 0");
-//                 }
-//             }
-//            failureBlock:^(NSError *error) {
-//                NSLog(@"couldn't get asset: %@", error);
-//            }
-//     ];
+//    FBSDKShareLinkContent *content2 = [[FBSDKShareLinkContent alloc] init];
+//    content2.contentURL = [NSURL URLWithString:@"http://developers.facebook.com"];
     
     
     
@@ -192,9 +163,22 @@
     [library assetForURL:referenceURL resultBlock:^(ALAsset *asset) {
         ALAssetRepresentation *rep = [asset defaultRepresentation];
         NSDictionary *metadata = rep.metadata;
-        NSLog(@"%@", metadata);
+        //NSLog(@"This is the Exif: %@", metadata);
+        NSLog(@"%@",metadata.allKeys);
+        // Print all the keys in the nsarray
+        //NSString *xxx = [metadata objectForKey:@""];
         
-        NSString *xxx = [metadata objectForKey:@""];
+        // This is for getting the gps information;
+        NSDictionary *GPSInfo = [metadata valueForKey:@"{GPS}"];
+        
+        NSString *longtitu = [GPSInfo valueForKey:@"Longitude"];
+        NSString *latitu = [GPSInfo valueForKey:@"Latitude"];
+        
+        NSLog(@"This is the Longtitude: %@", longtitu);
+        NSLog(@"This is the Latitude: %@", latitu);
+        
+        la = latitu;
+        lo = longtitu;
         
         // Put the information is the textField
         self.photoInfor.text = [NSString stringWithFormat:@"my dictionary is %@", metadata];
@@ -207,12 +191,18 @@
     } failureBlock:^(NSError *error) {
         // error handling
     }];
-
-
-    
-    
     
 }
+
+// This is for passing GPS location
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if([segue.identifier isEqualToString:@"pushGPSSegue"]){
+        MapViewController *controller = (MapViewController *)segue.destinationViewController;
+        controller.latitude = la;
+        controller.longtitude = lo;
+    }
+}
+
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     
