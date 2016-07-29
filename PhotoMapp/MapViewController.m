@@ -94,6 +94,7 @@
         
         // If No GPS Location Passed, just show the current position of the user
         if (self.latitude == NULL || self.longtitude == NULL) {
+            NSLog(@"No GPS Location passed");
             region.center.latitude = currentLocation.coordinate.latitude;
             region.center.longitude = currentLocation.coordinate.longitude;
         } else {
@@ -115,7 +116,7 @@
         if (self.latitude != NULL && self.longtitude != NULL) {
             [self.myMap addAnnotation:annotation];
         } else {
-            self.notice.text = @"No picture selected, here is you current location";
+            self.notice.text = @"No picture selected or it doesn't contain any location information, here is your current location";
         }
     }
 }

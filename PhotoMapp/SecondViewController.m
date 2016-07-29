@@ -53,7 +53,7 @@ static NSString *lo;
     [self.imageView setUserInteractionEnabled:YES];
     [self.imageView addGestureRecognizer:singleTap];
     
-    // This is the GPS information
+    //Setting the button
     
 
 }
@@ -143,7 +143,7 @@ static NSString *lo;
     //Adjust the position of the button
     CGPoint sharePosition;
     sharePosition.x = 180;
-    sharePosition.y = 550;
+    sharePosition.y = 580;
     button.center = sharePosition;
     [self.view addSubview:button];
     
@@ -165,6 +165,7 @@ static NSString *lo;
         NSDictionary *metadata = rep.metadata;
         //NSLog(@"This is the Exif: %@", metadata);
         NSLog(@"%@",metadata.allKeys);
+        NSLog(@"%@",metadata);
         // Print all the keys in the nsarray
         //NSString *xxx = [metadata objectForKey:@""];
         
@@ -180,8 +181,28 @@ static NSString *lo;
         la = latitu;
         lo = longtitu;
         
+        // This is for getting the time information;
+        NSDictionary *TimeInfo = [metadata valueForKey:@"{TIFF}"];
+        NSString *time = [TimeInfo valueForKey:@"DateTime"];
+        
+        
+        
         // Put the information is the textField
-        self.photoInfor.text = [NSString stringWithFormat:@"my dictionary is %@", metadata];
+        NSString *text = @"This photo contains precious memory. ";
+        if (longtitu == NULL || latitu == NULL) {
+            text = [NSString stringWithFormat:@"%@ %@", text, @"Although I don't know where is was taken."];
+        } else {
+            text = [NSString stringWithFormat:@"%@ %@ %@ %@", text, @"It was taken at the position of",longtitu,latitu];
+        }
+        
+        if (time == NULL) {
+            text = [NSString stringWithFormat:@"%@ %@", text, @"On the other hand I don't know when it were took."];
+        } else {
+            text = [NSString stringWithFormat:@"%@ %@ %@", text, @"It were took at ", time];
+        }
+        self.photoInfor.text = text;
+        
+        
         NSLog(@"%@",@"hhhh");
         //self.photoInfor.text = xxx;
         CGImageRef iref = [rep fullScreenImage] ;
