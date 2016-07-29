@@ -27,6 +27,9 @@
 static NSString *la;
 static NSString *lo;
 static NSString *weather;
+static NSString *place;
+static NSString *ti;
+static NSString *geocode;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -83,12 +86,48 @@ static NSString *weather;
               NSLog(@"%@",[instance objectForKey:@"weather_state_name"]);
              
               weather = [instance objectForKey:@"weather_state_name"];
+              geocode = [instance objectForKey:@"woeid"];
              //NSString *y = [greeting objectForKey:@"content"];
              //NSLog(x);
              //NSLog(y);
          }
      }];
 }
+
+// Get the location Geocode calling api,
+- (IBAction)fetchLocation;
+{
+    NSString *position = [NSString stringWithFormat:@"%@%@%@%@",@"?lattlong=",la, @",",lo];
+    NSString *theURL = [NSString stringWithFormat:@"%@%@",@"https://www.metaweather.com/api/location/search/",position];
+    NSURL *url = [NSURL URLWithString:theURL];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response,
+                                               NSData *data, NSError *connectionError)
+     {
+         if (data.length > 0 && connectionError == nil)
+         {
+             NSDictionary *info = [NSJSONSerialization JSONObjectWithData:data
+                                                                      options:0
+                                                                        error:NULL];
+             
+             //id key = [[greeting allKeys] objectAtIndex:0]; // Assumes 'message' is not empty
+             //id object = [greeting objectForKey:key];
+             //NSString *x =  [[greeting objectForKey:@"weather_state_name"] stringValue];
+             NSEnumerator *enumerator = [info objectEnumerator];
+             NSDictionary *instance = [enumerator nextObject];
+             NSLog(@"%@",[instance objectForKey:@"title"]);
+             
+             // This is the place name of that location
+             place = [instance objectForKey:@"title"];
+            
+         }
+     }];
+}
+
+
+
 
 
 
@@ -213,30 +252,27 @@ static NSString *weather;
         NSLog(@"This is the Longtitude: %@", longtitu);
         NSLog(@"This is the Latitude: %@", latitu);
         
+        // Get the longtitude and the latitude.
         la = latitu;
         lo = longtitu;
         
         // This is for getting the time information;
         NSDictionary *TimeInfo = [metadata valueForKey:@"{TIFF}"];
         NSString *time = [TimeInfo valueForKey:@"DateTime"];
+        ti = time;
+        
+        // Using API to check the location information.
+        [self fetchLocation];
+        
+        //[NSThread sleepForTimeInterval:5.0f];
         
         
-        
-        // Put the information is the textField
-        NSString *text = @"This photo contains precious memory. I still remember on that day the weather is";
-            text = [NSString stringWithFormat:@"%@ %@%@", text, weather, @"."];
-        if (longtitu == NULL || latitu == NULL) {
-            text = [NSString stringWithFormat:@"%@ %@", text, @"Although I don't know where is was taken."];
-        } else {
-            text = [NSString stringWithFormat:@"%@ %@ %@ %@", text, @"It was taken at the position of",longtitu,latitu];
-        }
-        
-        if (time == NULL) {
-            text = [NSString stringWithFormat:@"%@ %@", text, @"On the other hand I don't know when it were took."];
-        } else {
-            text = [NSString stringWithFormat:@"%@ %@ %@", text, @"It were took at ", time];
-        }
-        self.photoInfor.text = text;
+        // Try to wait for the information of
+        [NSTimer scheduledTimerWithTimeInterval:2.0
+                                         target:self
+                                       selector:@selector(doSomethingWhenTimeIsUp:)
+                                       userInfo:nil
+                                        repeats:NO];
         
         
         NSLog(@"%@",@"hhhh");
@@ -250,9 +286,6 @@ static NSString *weather;
     }];
     
     // This is tring to call the REST API
-    
-    
-    
 }
 
 // This is for passing GPS location
@@ -265,7 +298,28 @@ static NSString *weather;
 }
 
 
-// Testing the get REST
+// The timer method
+
+- (void) doSomethingWhenTimeIsUp:(NSTimer*)t {
+    
+    // Put the information is the textField
+    NSString *text = @"This photo contains precious memory. I still remember on that day the weather is";
+    text = [NSString stringWithFormat:@"%@ %@%@", text, weather, @"."];
+    if (lo == NULL || la == NULL) {
+        text = [NSString stringWithFormat:@"%@ %@", text, @"Although I don't know where is was taken."];
+    } else {
+        text = [NSString stringWithFormat:@"%@ %@ %@%@", text, @"It was taken at",place,@"."];
+    }
+    
+    if (ti == NULL) {
+        text = [NSString stringWithFormat:@"%@ %@", text, @"On the other hand I don't know when it were took."];
+    } else {
+        text = [NSString stringWithFormat:@"%@ %@ %@", text, @"The time was ", ti];
+    }
+    self.photoInfor.text = text;
+
+    
+}
 
 
 
