@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5001A3491D42C91C00087A78 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5001A3481D42C91C00087A78 /* Default-568h@2x.png */; };
+		508F8D671D4AE4C500F2221D /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 508F8D661D4AE4C500F2221D /* CoreMotion.framework */; };
 		9D6ED0371D42CB3E004EB537 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D6ED0341D42CB3E004EB537 /* FBSDKCoreKit.framework */; };
 		9D6ED0381D42CB3E004EB537 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D6ED0351D42CB3E004EB537 /* FBSDKLoginKit.framework */; };
 		9D6ED0391D42CB3E004EB537 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D6ED0361D42CB3E004EB537 /* FBSDKShareKit.framework */; };
@@ -63,6 +64,7 @@
 		5001A32D1D42C2F900087A78 /* PhotoMapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoMapTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5001A3381D42C2F900087A78 /* PhotoMapUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoMapUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5001A3481D42C91C00087A78 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		508F8D661D4AE4C500F2221D /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		9D6ED0341D42CB3E004EB537 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		9D6ED0351D42CB3E004EB537 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		9D6ED0361D42CB3E004EB537 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				508F8D671D4AE4C500F2221D /* CoreMotion.framework in Frameworks */,
 				9D8DCF981D49333A00D177EF /* MapKit.framework in Frameworks */,
 				9D8DCF961D49333200D177EF /* CoreLocation.framework in Frameworks */,
 				9D6ED0381D42CB3E004EB537 /* FBSDKLoginKit.framework in Frameworks */,
@@ -148,6 +151,7 @@
 		5001A3011D42BE3C00087A78 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				508F8D661D4AE4C500F2221D /* CoreMotion.framework */,
 				9D8DCF971D49333A00D177EF /* MapKit.framework */,
 				9D8DCF951D49333200D177EF /* CoreLocation.framework */,
 				9D6ED03A1D42CD6B004EB537 /* Bolts.framework */,

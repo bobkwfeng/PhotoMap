@@ -18,7 +18,6 @@
 #import "MapViewController.h"
 @import ImageIO;
 
-
 @interface SecondViewController ()
 
 @end
@@ -27,6 +26,7 @@
 
 static NSString *la;
 static NSString *lo;
+static NSString *weather;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -53,10 +53,45 @@ static NSString *lo;
     [self.imageView setUserInteractionEnabled:YES];
     [self.imageView addGestureRecognizer:singleTap];
     
-    //Setting the button
+    [self fetchGreeting];
     
-
+    
 }
+
+
+
+- (IBAction)fetchGreeting;
+{
+    NSURL *url = [NSURL URLWithString:@"https://www.metaweather.com/api/location/44418/2013/4/27/"];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response,
+                                               NSData *data, NSError *connectionError)
+     {
+         if (data.length > 0 && connectionError == nil)
+         {
+             NSDictionary *greeting = [NSJSONSerialization JSONObjectWithData:data
+                                                                      options:0
+                                                                        error:NULL];
+             
+             //id key = [[greeting allKeys] objectAtIndex:0]; // Assumes 'message' is not empty
+             //id object = [greeting objectForKey:key];
+             //NSString *x =  [[greeting objectForKey:@"weather_state_name"] stringValue];
+              NSEnumerator *enumerator = [greeting objectEnumerator];
+              NSDictionary *instance = [enumerator nextObject];
+              NSLog(@"%@",[instance objectForKey:@"weather_state_name"]);
+             
+              weather = [instance objectForKey:@"weather_state_name"];
+             //NSString *y = [greeting objectForKey:@"content"];
+             //NSLog(x);
+             //NSLog(y);
+         }
+     }];
+}
+
+
+
 
 // This is to handle the image clicked
 -(void)tapDetected{
@@ -188,7 +223,8 @@ static NSString *lo;
         
         
         // Put the information is the textField
-        NSString *text = @"This photo contains precious memory. ";
+        NSString *text = @"This photo contains precious memory. I still remember on that day the weather is";
+            text = [NSString stringWithFormat:@"%@ %@%@", text, weather, @"."];
         if (longtitu == NULL || latitu == NULL) {
             text = [NSString stringWithFormat:@"%@ %@", text, @"Although I don't know where is was taken."];
         } else {
@@ -213,6 +249,10 @@ static NSString *lo;
         // error handling
     }];
     
+    // This is tring to call the REST API
+    
+    
+    
 }
 
 // This is for passing GPS location
@@ -223,6 +263,14 @@ static NSString *lo;
         controller.longtitude = lo;
     }
 }
+
+
+// Testing the get REST
+
+
+
+
+
 
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
