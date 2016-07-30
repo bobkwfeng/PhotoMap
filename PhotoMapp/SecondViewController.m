@@ -410,18 +410,20 @@ static NSString *steps;
         
         year = timeArray[0];
         month = timeArray[1];
-        day = [timeArray[2] substringToIndex:1];
+        day = [timeArray[2] substringToIndex:2];
         
         
         
         // This is for getting the steps
         
         NSString *dateString = [NSString stringWithFormat:@"%@%@%@%@%@ %@",day,@"-",month,@"-",year,@"00:00:00"];
+        NSLog(@"The beginning date is %@", dateString);
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         dateFormatter.dateFormat = @"dd-MM-yyyy HH:mm:ss";
         NSDate *date3 = [dateFormatter dateFromString:dateString];
         
         NSString *dateString2 = [NSString stringWithFormat:@"%@%@%@%@%@ %@",day,@"-",month,@"-",year,@"23:59:59"];
+        NSLog(@"The end date is %@", dateString2);
         NSDateFormatter *dateFormatter2 = [[NSDateFormatter alloc] init];
         dateFormatter2.dateFormat = @"dd-MM-yyyy HH:mm:ss";
         NSDate *date2 = [dateFormatter2 dateFromString:dateString2];
