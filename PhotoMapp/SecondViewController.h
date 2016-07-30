@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
 @interface SecondViewController : UIViewController <UITextFieldDelegate>
 
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
@@ -17,6 +18,8 @@
 @property (strong, nonatomic) IBOutlet UIButton *Tracking;
 
 @property (strong, nonatomic) CMPedometer *pedometer;
+
+@property (strong, nonatomic) CLGeocoder *geo;
 
 
 @end

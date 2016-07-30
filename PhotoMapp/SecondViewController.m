@@ -32,6 +32,8 @@
 
 static NSString *la;
 static NSString *lo;
+static NSString *laRef;
+static NSString *loRef;
 static NSString *weather;
 static NSString *place;
 static NSString *ti;
@@ -39,9 +41,11 @@ static NSString *geocode;
 static NSString *year;
 static NSString *month;
 static NSString *day;
+static NSString *realLocation;
+static NSString *steps;
 
-- (CMPedometer *)pedometer {
-    
+- (CMPedometer *)pedometerInitial {
+    NSLog(@"aaaaaaaaaaa");
     if (!_pedometer) {
         _pedometer = [[CMPedometer alloc]init];
     }
@@ -61,13 +65,15 @@ static NSString *day;
 
 
 - (void)updateLabels:(CMPedometerData *)pedometerData {
-    
+    NSLog(@"sssssss4");
+
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
     formatter.maximumFractionDigits = 2;
     
     // step counting
     if ([CMPedometer isStepCountingAvailable]) {
         NSLog(@"%@",[NSString stringWithFormat:@"Steps walked: %@", [formatter stringFromNumber:pedometerData.numberOfSteps]]);
+        steps = [formatter stringFromNumber:pedometerData.numberOfSteps];
     } else {
         NSLog(@"Step Counter not available.");
     }
@@ -137,16 +143,14 @@ static NSString *day;
     [self.imageView addGestureRecognizer:singleTap];
     
     NSLog(@"sssssss");
-    [self pedometer];
+    [self pedometerInitial];
     // start live tracking
+    
     NSLog(@"sssssss2");
 
-    [self.pedometer startPedometerUpdatesFromDate:[NSDate date] withHandler:^(CMPedometerData *_Nullable pedometerData, NSError * _Nullable error) {
-        NSLog(@"sss");
-        // this block is called for each live update
-        [self updateLabels:pedometerData];
-        
-    }];
+    
+    
+    NSLog(@"sssssss3");
 
     
 }
@@ -284,6 +288,9 @@ static NSString *day;
 
 
 
+
+
+
 // After Picking The Photo, show it on the view and share with FaceBook(This need the phone has a native Facebook app)
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     
@@ -296,6 +303,9 @@ static NSString *day;
                                  chosenImage.size.width, chosenImage.size.height);
     
     [picker dismissViewControllerAnimated:YES completion:NULL];
+    
+    // Save the image to gallary
+    UIImageWriteToSavedPhotosAlbum(chosenImage, nil, nil, nil);
     
     
     
@@ -345,13 +355,48 @@ static NSString *day;
         
         NSString *longtitu = [GPSInfo valueForKey:@"Longitude"];
         NSString *latitu = [GPSInfo valueForKey:@"Latitude"];
+        laRef = [GPSInfo valueForKey:@"LatitudeRef"];
+        loRef = [GPSInfo valueForKey:@"LongitudeRef"];
+        
         
         NSLog(@"This is the Longtitude: %@", longtitu);
         NSLog(@"This is the Latitude: %@", latitu);
         
-        // Get the longtitude and the latitude.
-        la = latitu;
-        lo = longtitu;
+        // Get the longtitude and the latitude.(Transmit + or - in it)
+        if ([laRef  isEqual: @"S"]) {
+            la =[NSString stringWithFormat:@"%@%@",@"-",latitu];
+        } else {
+            la = latitu;
+        };
+        if ([loRef  isEqual: @"W"]) {
+            lo =[NSString stringWithFormat:@"%@%@",@"-",longtitu];
+        } else {
+            lo = longtitu;
+        };
+        
+        
+        CLLocation *locationa = [[CLLocation alloc]
+                                initWithLatitude:[la doubleValue]
+                                longitude:[lo doubleValue]];
+        
+        self.geo = [[CLGeocoder alloc] init];
+        [self.geo reverseGeocodeLocation:locationa completionHandler:^(NSArray *placemarks, NSError *error){
+            if (error == nil && placemarks.count >0) {
+                CLPlacemark *placemark = placemarks[0];
+                NSLog(@"ahahahahahahahahahahahaha : %@", placemark.locality);
+                realLocation = placemark.locality;
+            }
+            else if (error == nil && placemarks.count == 0){
+                NSLog(@"No results were returnd.");
+            }
+            else if (error != nil) {
+                NSLog(@"An error occurred = %@", error);
+            }
+        }];
+        
+        
+        
+        
         
         // This is for getting the time information;
         NSDictionary *TimeInfo = [metadata valueForKey:@"{TIFF}"];
@@ -369,6 +414,31 @@ static NSString *day;
         
         
         
+        // This is for getting the steps
+        
+        NSString *dateString = [NSString stringWithFormat:@"%@%@%@%@%@ %@",day,@"-",month,@"-",year,@"00:00:00"];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.dateFormat = @"dd-MM-yyyy HH:mm:ss";
+        NSDate *date3 = [dateFormatter dateFromString:dateString];
+        
+        NSString *dateString2 = [NSString stringWithFormat:@"%@%@%@%@%@ %@",day,@"-",month,@"-",year,@"23:59:59"];
+        NSDateFormatter *dateFormatter2 = [[NSDateFormatter alloc] init];
+        dateFormatter2.dateFormat = @"dd-MM-yyyy HH:mm:ss";
+        NSDate *date2 = [dateFormatter2 dateFromString:dateString2];
+        
+        //NSLog(@"%@",self.pedometer);
+        
+        //NSLog(@"%d", [CMPedometer isStepCountingAvailable]);
+        
+        [self.pedometer queryPedometerDataFromDate:date3 toDate:date2 withHandler:^(CMPedometerData * _Nullable pedometerData, NSError * _Nullable error) {
+            //NSLog(@"sss");
+            //NSLog(@"%@",error);
+            // this block is called for each live update
+            [self updateLabels:pedometerData];
+            NSLog(@"%@", pedometerData);
+            
+        }];
+
         
         
         
@@ -420,7 +490,7 @@ static NSString *day;
     if (lo == NULL || la == NULL) {
         text = [NSString stringWithFormat:@"%@ %@", text, @"Although I don't know where is was taken."];
     } else {
-        text = [NSString stringWithFormat:@"%@ %@ %@%@", text, @"It was taken at",place,@"."];
+        text = [NSString stringWithFormat:@"%@ %@ %@%@", text, @"It was taken at",realLocation,@"."];
     }
     
     if (ti == NULL) {
@@ -428,6 +498,8 @@ static NSString *day;
     } else {
         text = [NSString stringWithFormat:@"%@ %@ %@", text, @"The time was ", ti];
     }
+    
+    text = [NSString stringWithFormat:@"%@ %@ %@ %@", text, @"I walked", steps, @"steps."];
     self.photoInfor.text = text;
 
     
