@@ -92,6 +92,13 @@
                                 </attributedString>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8kj-hE-6DD">
+                                <rect key="frame" x="163" y="351" width="59" height="30"/>
+                                <state key="normal" title="Tracking"/>
+                                <connections>
+                                    <action selector="Tracking:" destination="8rJ-Kc-sve" eventType="touchUpInside" id="355-gw-pGd"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -103,6 +110,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="Tracking" destination="8kj-hE-6DD" id="Xka-DN-6XX"/>
                         <outlet property="imageView" destination="KsZ-Tm-rj5" id="Hli-P1-oJZ"/>
                         <outlet property="photoInfor" destination="BzZ-7w-uFp" id="FCP-eo-97y"/>
                     </connections>

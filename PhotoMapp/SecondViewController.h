@@ -14,6 +14,10 @@
 @property (weak, nonatomic) IBOutlet UITextView *photoInfor;
 - (IBAction)takePhoto:(UIButton *)sender;- (IBAction)selectPhoto:(UIButton *)sender;
 
+@property (strong, nonatomic) IBOutlet UIButton *Tracking;
+
+@property (strong, nonatomic) CMPedometer *pedometer;
+
 
 @end
 

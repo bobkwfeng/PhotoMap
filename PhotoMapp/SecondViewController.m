@@ -5,7 +5,8 @@
 //  Created by Bob Feng on 7/19/16.
 //  Copyright © 2016 Bob Feng. All rights reserved.
 //
-
+@import CoreMotion;
+@import ImageIO;
 #import "SecondViewController.h"
 #import <FBSDKShareKit/FBSDKShareKit.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
@@ -16,9 +17,14 @@
 #import <ImageIO/CGImageSource.h>
 #import <ImageIO/CGImageProperties.h>
 #import "MapViewController.h"
-@import ImageIO;
+#import <CoreMotion/CMPedometer.h>
+
+
+
+
 
 @interface SecondViewController ()
+// The is the reference of the pedometer
 
 @end
 
@@ -30,6 +36,80 @@ static NSString *weather;
 static NSString *place;
 static NSString *ti;
 static NSString *geocode;
+static NSString *year;
+static NSString *month;
+static NSString *day;
+
+- (CMPedometer *)pedometer {
+    
+    if (!_pedometer) {
+        _pedometer = [[CMPedometer alloc]init];
+    }
+    return _pedometer;
+}
+
+- (IBAction)Tracking:(id)sender {
+        
+        // start live tracking
+        [self.pedometer startPedometerUpdatesFromDate:[NSDate date] withHandler:^(CMPedometerData *_Nullable pedometerData, NSError * _Nullable error) {
+            NSLog(@"sss");
+        // this block is called for each live update
+        [self updateLabels:pedometerData];
+            
+    }];
+}
+
+
+- (void)updateLabels:(CMPedometerData *)pedometerData {
+    
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+    formatter.maximumFractionDigits = 2;
+    
+    // step counting
+    if ([CMPedometer isStepCountingAvailable]) {
+        NSLog(@"%@",[NSString stringWithFormat:@"Steps walked: %@", [formatter stringFromNumber:pedometerData.numberOfSteps]]);
+    } else {
+        NSLog(@"Step Counter not available.");
+    }
+    
+    // distance
+    if ([CMPedometer isDistanceAvailable]) {
+        NSLog(@"%@",[NSString stringWithFormat:@"Distance travelled: \n%@ meters", [formatter stringFromNumber:pedometerData.distance]]);
+    } else {
+        NSLog(@"Distance estimate not available.");
+    }
+    
+    // pace
+    if ([CMPedometer isPaceAvailable] && pedometerData.currentPace) {
+        NSLog(@"%@",[NSString stringWithFormat:@"Current Pace: \n%@ seconds per meter", [formatter stringFromNumber:pedometerData.currentPace]]);
+    } else {
+        NSLog(@"Pace not available.");
+    }
+    
+    // cadence
+    if ([CMPedometer isCadenceAvailable] && pedometerData.currentCadence) {
+        NSLog(@"%@",[NSString stringWithFormat:@"Cadence: \n%@ steps per second", [formatter stringFromNumber: pedometerData.currentCadence]]);
+    } else {
+        NSLog(@"Cadence not available.");
+    }
+    
+    // flights climbed
+    if ([CMPedometer isFloorCountingAvailable] && pedometerData.floorsAscended) {
+        NSLog(@"%@",[NSString stringWithFormat:@"Floors ascended: %@", pedometerData.floorsAscended]);
+    } else {
+        NSLog(@"Floors ascended\nnot available.");
+    }
+    
+    if ([CMPedometer isFloorCountingAvailable] && pedometerData.floorsDescended) {
+        NSLog(@"%@", [NSString stringWithFormat:@"Floors descended: %@", pedometerData.floorsDescended]);
+    } else {
+        NSLog(@"Floors descended\nnot available.");
+    }
+    
+}
+
+
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -56,43 +136,22 @@ static NSString *geocode;
     [self.imageView setUserInteractionEnabled:YES];
     [self.imageView addGestureRecognizer:singleTap];
     
-    [self fetchGreeting];
-    
+    NSLog(@"sssssss");
+    [self pedometer];
+    // start live tracking
+    NSLog(@"sssssss2");
+
+    [self.pedometer startPedometerUpdatesFromDate:[NSDate date] withHandler:^(CMPedometerData *_Nullable pedometerData, NSError * _Nullable error) {
+        NSLog(@"sss");
+        // this block is called for each live update
+        [self updateLabels:pedometerData];
+        
+    }];
+
     
 }
 
 
-
-- (IBAction)fetchGreeting;
-{
-    NSURL *url = [NSURL URLWithString:@"https://www.metaweather.com/api/location/44418/2013/4/27/"];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    [NSURLConnection sendAsynchronousRequest:request
-                                       queue:[NSOperationQueue mainQueue]
-                           completionHandler:^(NSURLResponse *response,
-                                               NSData *data, NSError *connectionError)
-     {
-         if (data.length > 0 && connectionError == nil)
-         {
-             NSDictionary *greeting = [NSJSONSerialization JSONObjectWithData:data
-                                                                      options:0
-                                                                        error:NULL];
-             
-             //id key = [[greeting allKeys] objectAtIndex:0]; // Assumes 'message' is not empty
-             //id object = [greeting objectForKey:key];
-             //NSString *x =  [[greeting objectForKey:@"weather_state_name"] stringValue];
-              NSEnumerator *enumerator = [greeting objectEnumerator];
-              NSDictionary *instance = [enumerator nextObject];
-              NSLog(@"%@",[instance objectForKey:@"weather_state_name"]);
-             
-              weather = [instance objectForKey:@"weather_state_name"];
-              geocode = [instance objectForKey:@"woeid"];
-             //NSString *y = [greeting objectForKey:@"content"];
-             //NSLog(x);
-             //NSLog(y);
-         }
-     }];
-}
 
 // Get the location Geocode calling api,
 - (IBAction)fetchLocation;
@@ -121,11 +180,49 @@ static NSString *geocode;
              
              // This is the place name of that location
              place = [instance objectForKey:@"title"];
+             geocode = [instance objectForKey:@"woeid"];
             
          }
      }];
 }
 
+
+// Make sure the fetchWeather is called after the fetchLocation Method, because weather will need the geoCode information from fetchLocation.
+- (IBAction)fetchWeather;
+{
+    // Here is the code to make a restful api call
+    NSString *weatherURL = [NSString stringWithFormat:@"%@%@%@%@%@%@%@%@",@"https://www.metaweather.com/api/location/",geocode,@"/",year,@"/",month,@"/",day];
+    
+    NSLog(@"%@", weatherURL);
+    
+    NSURL *url = [NSURL URLWithString:weatherURL];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response,
+                                               NSData *data, NSError *connectionError)
+     {
+         if (data.length > 0 && connectionError == nil)
+         {
+             NSDictionary *greeting = [NSJSONSerialization JSONObjectWithData:data
+                                                                      options:0
+                                                                        error:NULL];
+             
+             //id key = [[greeting allKeys] objectAtIndex:0]; // Assumes 'message' is not empty
+             //id object = [greeting objectForKey:key];
+             //NSString *x =  [[greeting objectForKey:@"weather_state_name"] stringValue];
+             NSEnumerator *enumerator = [greeting objectEnumerator];
+             NSDictionary *instance = [enumerator nextObject];
+             NSLog(@"%@",[instance objectForKey:@"weather_state_name"]);
+             
+             weather = [instance objectForKey:@"weather_state_name"];
+             //geocode = [instance objectForKey:@"woeid"];
+             //NSString *y = [greeting objectForKey:@"content"];
+             //NSLog(x);
+             //NSLog(y);
+         }
+     }];
+}
 
 
 
@@ -260,19 +357,34 @@ static NSString *geocode;
         NSDictionary *TimeInfo = [metadata valueForKey:@"{TIFF}"];
         NSString *time = [TimeInfo valueForKey:@"DateTime"];
         ti = time;
+        //
+        NSArray *timeArray = [ti componentsSeparatedByString: @":"];
+        NSLog(@"%@",timeArray[0]);
+        NSLog(@"%@",timeArray[1]);
+        NSLog(@"%@",timeArray[2]);
+        
+        year = timeArray[0];
+        month = timeArray[1];
+        day = [timeArray[2] substringToIndex:1];
+        
+        
+        
+        
+        
         
         // Using API to check the location information.
         [self fetchLocation];
         
-        //[NSThread sleepForTimeInterval:5.0f];
-        
-        
-        // Try to wait for the information of
+        //after fetch location 2 second, call fetchWeather(First get the location, then there is weather.)
         [NSTimer scheduledTimerWithTimeInterval:2.0
                                          target:self
-                                       selector:@selector(doSomethingWhenTimeIsUp:)
+                                       selector:@selector(doSomethingWhenTimeIsUp2:)
                                        userInfo:nil
                                         repeats:NO];
+
+        
+        
+        // Try to wait for the information to setup the textfield
         
         
         NSLog(@"%@",@"hhhh");
@@ -321,7 +433,15 @@ static NSString *geocode;
     
 }
 
+- (void) doSomethingWhenTimeIsUp2:(NSTimer*)t {
+    [self fetchWeather];
+    [NSTimer scheduledTimerWithTimeInterval:2.0
+                                     target:self
+                                   selector:@selector(doSomethingWhenTimeIsUp:)
+                                   userInfo:nil
+                                    repeats:NO];
 
+}
 
 
 
