@@ -7,6 +7,7 @@
 //
 @import CoreMotion;
 @import ImageIO;
+@import CoreLocation;
 #import "SecondViewController.h"
 #import <FBSDKShareKit/FBSDKShareKit.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
@@ -25,10 +26,12 @@
 
 @interface SecondViewController ()
 // The is the reference of the pedometer
-
+@property (strong, nonatomic) CLLocationManager *locationManager;
 @end
 
 @implementation SecondViewController
+
+CLLocationManager *locationManager;
 
 static NSString *la;
 static NSString *lo;
@@ -43,6 +46,8 @@ static NSString *month;
 static NSString *day;
 static NSString *realLocation;
 static NSString *steps;
+static int judge = 0;
+
 
 - (CMPedometer *)pedometerInitial {
     NSLog(@"aaaaaaaaaaa");
@@ -268,7 +273,7 @@ static NSString *steps;
     picker.sourceType = UIImagePickerControllerSourceTypeCamera;
     
     [self presentViewController:picker animated:YES completion:NULL];
-    
+    judge = 1;
 }
 
 - (IBAction)selectPhoto:(UIButton *)sender {
@@ -279,10 +284,45 @@ static NSString *steps;
     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     
     [self presentViewController:picker animated:YES completion:NULL];
-
+    judge = 2;
 }
 
 
+// GPS helper method
+
+- (NSDictionary *) gpsDictionaryForLocation:(CLLocation *)location
+{
+    CLLocationDegrees exifLatitude  = location.coordinate.latitude;
+    CLLocationDegrees exifLongitude = location.coordinate.longitude;
+    
+    NSString * latRef;
+    NSString * longRef;
+    if (exifLatitude < 0.0) {
+        exifLatitude = exifLatitude * -1.0f;
+        latRef = @"S";
+    } else {
+        latRef = @"N";
+    }
+    
+    if (exifLongitude < 0.0) {
+        exifLongitude = exifLongitude * -1.0f;
+        longRef = @"W";
+    } else {
+        longRef = @"E";
+    }
+    
+    NSMutableDictionary *locDict = [[NSMutableDictionary alloc] init];
+    
+    [locDict setObject:location.timestamp forKey:(NSString*)kCGImagePropertyGPSTimeStamp];
+    [locDict setObject:latRef forKey:(NSString*)kCGImagePropertyGPSLatitudeRef];
+    [locDict setObject:[NSNumber numberWithFloat:exifLatitude] forKey:(NSString *)kCGImagePropertyGPSLatitude];
+    [locDict setObject:longRef forKey:(NSString*)kCGImagePropertyGPSLongitudeRef];
+    [locDict setObject:[NSNumber numberWithFloat:exifLongitude] forKey:(NSString *)kCGImagePropertyGPSLongitude];
+    [locDict setObject:[NSNumber numberWithFloat:location.horizontalAccuracy] forKey:(NSString*)kCGImagePropertyGPSDOP];
+    [locDict setObject:[NSNumber numberWithFloat:location.altitude] forKey:(NSString*)kCGImagePropertyGPSAltitude];
+    
+    return locDict;
+}
 
 
 
@@ -296,6 +336,9 @@ static NSString *steps;
     
     UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
     //self.imageView.image = chosenImage;
+    NSMutableDictionary *imageMetadata = [[NSMutableDictionary alloc] initWithDictionary:[info objectForKey:UIImagePickerControllerMediaMetadata]];
+    
+    
     
     // This is trying to fill the image as it is.
     [self.imageView setImage:chosenImage];
@@ -305,25 +348,96 @@ static NSString *steps;
     [picker dismissViewControllerAnimated:YES completion:NULL];
     
     // Save the image to gallary
-    UIImageWriteToSavedPhotosAlbum(chosenImage, nil, nil, nil);
+    if (judge == 1) {
+        
+        
+        // create CLLocation for image
+        locationManager = [[CLLocationManager alloc] init];
+        [locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
+        CLLocation * loc = [locationManager location];
+        
+        if (loc) {
+            [imageMetadata setObject:[self gpsDictionaryForLocation:loc] forKey:(NSString*)kCGImagePropertyGPSDictionary];
+        }
+        
+        // Get the assets library
+        ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
+        
+        // create a completion block for when we process the image
+        ALAssetsLibraryWriteImageCompletionBlock imageWriteCompletionBlock =
+        ^(NSURL *newURL, NSError *error) {
+            if (error) {
+                NSLog( @"Error writing image with metadata to Photo Library: %@", error );
+            } else {
+                NSLog( @"Wrote image %@ with metadata %@ to Photo Library",newURL,imageMetadata);
+            }
+        };
+        
+        // Save the new image to the Camera Roll, using the completion block defined just above
+        [library writeImageToSavedPhotosAlbum:[chosenImage CGImage] metadata:imageMetadata completionBlock:imageWriteCompletionBlock];
+        
+        
+        
+//        ALAssetsLibrary* library = [[ALAssetsLibrary alloc] init];
+//        [library writeImageToSavedPhotosAlbum:[chosenImage CGImage] metadata:imageMetadata completionBlock:Nil];
+        //[library release];
+        
+        
+        //UIImageWriteToSavedPhotosAlbum(chosenImage, nil, nil, nil);
+    }
     
     
     
     // This is what is going to be shared on facebook
-    UIImage *image = info[UIImagePickerControllerOriginalImage];
+    //UIImage *image = info[UIImagePickerControllerOriginalImage];
+    UIImage *image = chosenImage;
+    
     
     FBSDKSharePhoto *photo = [[FBSDKSharePhoto alloc] init];
     photo.image = image;
     photo.userGenerated = YES;
+    
     FBSDKSharePhotoContent *content = [[FBSDKSharePhotoContent alloc] init];
     content.photos = @[photo];
+    
+    
+    
+    
+//    NSURL *imageURL = [NSURL URLWithString:@"https://upload.wikimedia.org/wikipedia/commons/c/cd/Panda_Cub_from_Wolong,_Sichuan,_China.JPG"];
+//    FBSDKSharePhoto *photo = [FBSDKSharePhoto photoWithImageURL:imageURL userGenerated:YES];
+//    NSDictionary *properties = @{
+//                                 @"og:type": @"welovephotomap:diary",
+//                                 @"og:title": @"Sample Diary",
+//                                 @"og:description": @"",
+//                                 @"og:url": @"http://samples.ogp.me/325643821156611",
+//                                 @"og:image": @[photo]
+//                                 };
+//    FBSDKShareOpenGraphObject *object = [FBSDKShareOpenGraphObject objectWithProperties:properties];
+//    FBSDKShareAPI *shareAPI = [[FBSDKShareAPI alloc] init];
+//    [shareAPI createOpenGraphObject:object];
+//    
+//    
+//    FBSDKShareOpenGraphAction *action = [[FBSDKShareOpenGraphAction alloc] init];
+//    action.actionType = @"welovephotomap:create";
+//    [action setString:@"http://samples.ogp.me/325643821156611" forKey:@"diary"];
+//    FBSDKShareOpenGraphContent *content = [[FBSDKShareOpenGraphContent alloc] init];
+//    content.action = action;
+//    content.previewPropertyName = @"diary";
+//    //FBSDKShareAPI *shareAPI = [[FBSDKShareAPI alloc] init];
+//    // optionally set the delegate
+//    // shareAPI.delegate = self;
+//    shareAPI.shareContent = content;
+//    [shareAPI share];
+    
+    
+    
     
     FBSDKShareButton *button = [[FBSDKShareButton alloc] init];
     button.shareContent = content;
     
     //Adjust the position of the button
     CGPoint sharePosition;
-    sharePosition.x = 180;
+    sharePosition.x = 170;
     sharePosition.y = 580;
     button.center = sharePosition;
     [self.view addSubview:button];
@@ -431,16 +545,17 @@ static NSString *steps;
         //NSLog(@"%@",self.pedometer);
         
         //NSLog(@"%d", [CMPedometer isStepCountingAvailable]);
+        if (day != NULL && month != NULL && year != NULL) {
+            [self.pedometer queryPedometerDataFromDate:date3 toDate:date2 withHandler:^(CMPedometerData * _Nullable pedometerData, NSError * _Nullable error) {
+                //NSLog(@"sss");
+                //NSLog(@"%@",error);
+                // this block is called for each live update
+                [self updateLabels:pedometerData];
+                NSLog(@"%@", pedometerData);
+                
+            }];
+        }
         
-        [self.pedometer queryPedometerDataFromDate:date3 toDate:date2 withHandler:^(CMPedometerData * _Nullable pedometerData, NSError * _Nullable error) {
-            //NSLog(@"sss");
-            //NSLog(@"%@",error);
-            // this block is called for each live update
-            [self updateLabels:pedometerData];
-            NSLog(@"%@", pedometerData);
-            
-        }];
-
         
         
         
@@ -526,6 +641,7 @@ static NSString *steps;
     [picker dismissViewControllerAnimated:YES completion:NULL];
     
 }
+
 
 
 

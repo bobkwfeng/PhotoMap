@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5001A3491D42C91C00087A78 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5001A3481D42C91C00087A78 /* Default-568h@2x.png */; };
 		508F8D671D4AE4C500F2221D /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 508F8D661D4AE4C500F2221D /* CoreMotion.framework */; };
+		508F8D6C1D4E847300F2221D /* launch.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 508F8D6B1D4E847200F2221D /* launch.jpg */; };
 		9D6ED0371D42CB3E004EB537 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D6ED0341D42CB3E004EB537 /* FBSDKCoreKit.framework */; };
 		9D6ED0381D42CB3E004EB537 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D6ED0351D42CB3E004EB537 /* FBSDKLoginKit.framework */; };
 		9D6ED0391D42CB3E004EB537 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D6ED0361D42CB3E004EB537 /* FBSDKShareKit.framework */; };
@@ -65,6 +66,7 @@
 		5001A3381D42C2F900087A78 /* PhotoMapUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoMapUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5001A3481D42C91C00087A78 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		508F8D661D4AE4C500F2221D /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		508F8D6B1D4E847200F2221D /* launch.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = launch.jpg; sourceTree = "<group>"; };
 		9D6ED0341D42CB3E004EB537 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		9D6ED0351D42CB3E004EB537 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		9D6ED0361D42CB3E004EB537 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 		9D82D22A1D3EC3FA009CAF1B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				508F8D6B1D4E847200F2221D /* launch.jpg */,
 				9D82D22B1D3EC3FA009CAF1B /* main.m */,
 			);
 			name = "Supporting Files";
@@ -428,6 +431,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				508F8D6C1D4E847300F2221D /* launch.jpg in Resources */,
 				9D82D23D1D3EC3FA009CAF1B /* LaunchScreen.storyboard in Resources */,
 				9D82D23A1D3EC3FA009CAF1B /* Assets.xcassets in Resources */,
 				9D82D2381D3EC3FA009CAF1B /* Main.storyboard in Resources */,
@@ -708,6 +712,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -728,6 +733,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
