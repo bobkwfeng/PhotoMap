@@ -10,6 +10,13 @@
 		5001A3491D42C91C00087A78 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5001A3481D42C91C00087A78 /* Default-568h@2x.png */; };
 		508F8D671D4AE4C500F2221D /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 508F8D661D4AE4C500F2221D /* CoreMotion.framework */; };
 		508F8D6C1D4E847300F2221D /* launch.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 508F8D6B1D4E847200F2221D /* launch.jpg */; };
+		508F8D721D4FD27200F2221D /* baricon.png in Resources */ = {isa = PBXBuildFile; fileRef = 508F8D711D4FD27200F2221D /* baricon.png */; };
+		508F8D741D4FD60700F2221D /* background-1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 508F8D731D4FD60700F2221D /* background-1.jpg */; };
+		508F8D761D4FDEA800F2221D /* Waypoint Map-96.png in Resources */ = {isa = PBXBuildFile; fileRef = 508F8D751D4FDEA800F2221D /* Waypoint Map-96.png */; };
+		508F8D781D4FE04600F2221D /* Waypoint Map-60.png in Resources */ = {isa = PBXBuildFile; fileRef = 508F8D771D4FE04600F2221D /* Waypoint Map-60.png */; };
+		508F8D7A1D4FE04D00F2221D /* Waypoint Map-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 508F8D791D4FE04D00F2221D /* Waypoint Map-40.png */; };
+		508F8D7C1D4FE05500F2221D /* Waypoint Map-29.png in Resources */ = {isa = PBXBuildFile; fileRef = 508F8D7B1D4FE05500F2221D /* Waypoint Map-29.png */; };
+		508F8D7E1D4FE68A00F2221D /* map-512.png in Resources */ = {isa = PBXBuildFile; fileRef = 508F8D7D1D4FE68A00F2221D /* map-512.png */; };
 		9D6ED0371D42CB3E004EB537 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D6ED0341D42CB3E004EB537 /* FBSDKCoreKit.framework */; };
 		9D6ED0381D42CB3E004EB537 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D6ED0351D42CB3E004EB537 /* FBSDKLoginKit.framework */; };
 		9D6ED0391D42CB3E004EB537 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D6ED0361D42CB3E004EB537 /* FBSDKShareKit.framework */; };
@@ -67,6 +74,13 @@
 		5001A3481D42C91C00087A78 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		508F8D661D4AE4C500F2221D /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		508F8D6B1D4E847200F2221D /* launch.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = launch.jpg; sourceTree = "<group>"; };
+		508F8D711D4FD27200F2221D /* baricon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = baricon.png; sourceTree = "<group>"; };
+		508F8D731D4FD60700F2221D /* background-1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "background-1.jpg"; sourceTree = "<group>"; };
+		508F8D751D4FDEA800F2221D /* Waypoint Map-96.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Waypoint Map-96.png"; sourceTree = "<group>"; };
+		508F8D771D4FE04600F2221D /* Waypoint Map-60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Waypoint Map-60.png"; sourceTree = "<group>"; };
+		508F8D791D4FE04D00F2221D /* Waypoint Map-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Waypoint Map-40.png"; sourceTree = "<group>"; };
+		508F8D7B1D4FE05500F2221D /* Waypoint Map-29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Waypoint Map-29.png"; sourceTree = "<group>"; };
+		508F8D7D1D4FE68A00F2221D /* map-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map-512.png"; sourceTree = "<group>"; };
 		9D6ED0341D42CB3E004EB537 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		9D6ED0351D42CB3E004EB537 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		9D6ED0361D42CB3E004EB537 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
@@ -214,6 +228,13 @@
 		9D82D22A1D3EC3FA009CAF1B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				508F8D7D1D4FE68A00F2221D /* map-512.png */,
+				508F8D7B1D4FE05500F2221D /* Waypoint Map-29.png */,
+				508F8D791D4FE04D00F2221D /* Waypoint Map-40.png */,
+				508F8D771D4FE04600F2221D /* Waypoint Map-60.png */,
+				508F8D751D4FDEA800F2221D /* Waypoint Map-96.png */,
+				508F8D731D4FD60700F2221D /* background-1.jpg */,
+				508F8D711D4FD27200F2221D /* baricon.png */,
 				508F8D6B1D4E847200F2221D /* launch.jpg */,
 				9D82D22B1D3EC3FA009CAF1B /* main.m */,
 			);
@@ -433,8 +454,15 @@
 			files = (
 				508F8D6C1D4E847300F2221D /* launch.jpg in Resources */,
 				9D82D23D1D3EC3FA009CAF1B /* LaunchScreen.storyboard in Resources */,
+				508F8D781D4FE04600F2221D /* Waypoint Map-60.png in Resources */,
+				508F8D7C1D4FE05500F2221D /* Waypoint Map-29.png in Resources */,
+				508F8D761D4FDEA800F2221D /* Waypoint Map-96.png in Resources */,
 				9D82D23A1D3EC3FA009CAF1B /* Assets.xcassets in Resources */,
+				508F8D741D4FD60700F2221D /* background-1.jpg in Resources */,
+				508F8D721D4FD27200F2221D /* baricon.png in Resources */,
+				508F8D7E1D4FE68A00F2221D /* map-512.png in Resources */,
 				9D82D2381D3EC3FA009CAF1B /* Main.storyboard in Resources */,
+				508F8D7A1D4FE04D00F2221D /* Waypoint Map-40.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -49,6 +49,47 @@ static NSString *steps;
 static int judge = 0;
 
 
+- (void)textViewDidBeginEditing:(UITextView *)textField
+{
+    NSLog(@"xxx");
+    [self animateTextView: textField up: YES];
+}
+
+
+- (void)textViewDidEndEditing:(UITextView *)textField
+{
+    NSLog(@"yyy");
+    [self animateTextView: textField up: NO];
+}
+
+- (void) animateTextView: (UITextView*) textField up: (BOOL) up
+{
+    const int movementDistance = 150; // tweak as needed
+    const float movementDuration = 0.3f; // tweak as needed
+    
+    int movement = (up ? -movementDistance : movementDistance);
+    
+    [UIView beginAnimations: @"anim" context: nil];
+    [UIView setAnimationBeginsFromCurrentState: YES];
+    [UIView setAnimationDuration: movementDuration];
+    self.view.frame = CGRectOffset(self.view.frame, 0, movement);
+    [UIView commitAnimations];
+}
+
+
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range
+ replacementText:(NSString *)text {
+    
+    if([text isEqualToString:@"\n"]) {
+        [textView resignFirstResponder];
+        return NO;
+    }
+    return YES;
+}
+
+
+
 - (CMPedometer *)pedometerInitial {
     NSLog(@"aaaaaaaaaaa");
     if (!_pedometer) {
@@ -347,7 +388,7 @@ static int judge = 0;
     
     [picker dismissViewControllerAnimated:YES completion:NULL];
     
-    // Save the image to gallary
+    // judge == 1 means this photo is taken from camera. Save the image to gallary
     if (judge == 1) {
         
         
@@ -384,207 +425,227 @@ static int judge = 0;
         
         
         //UIImageWriteToSavedPhotosAlbum(chosenImage, nil, nil, nil);
+        self.photoInfor.text = @"Your photo has been saved, you can select photo and generate diary.";
+        
+    } else {
+        // This is the toast message
+        NSString *message = @"Generating Your Diary Template, Please Wait...";
+        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil
+                                                                       message:message
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        [self presentViewController:alert animated:YES completion:nil];
+        
+        int duration = 5; // duration in seconds
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, duration * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+            [alert dismissViewControllerAnimated:YES completion:nil];
+        });
+        
+        
+        
+        
+        
+        
+        // This is what is going to be shared on facebook
+        //UIImage *image = info[UIImagePickerControllerOriginalImage];
+        UIImage *image = chosenImage;
+        
+        
+        FBSDKSharePhoto *photo = [[FBSDKSharePhoto alloc] init];
+        photo.image = image;
+        photo.userGenerated = YES;
+        
+        FBSDKSharePhotoContent *content = [[FBSDKSharePhotoContent alloc] init];
+        content.photos = @[photo];
+        
+        
+        
+        
+        //    NSURL *imageURL = [NSURL URLWithString:@"https://upload.wikimedia.org/wikipedia/commons/c/cd/Panda_Cub_from_Wolong,_Sichuan,_China.JPG"];
+        //    FBSDKSharePhoto *photo = [FBSDKSharePhoto photoWithImageURL:imageURL userGenerated:YES];
+        //    NSDictionary *properties = @{
+        //                                 @"og:type": @"welovephotomap:diary",
+        //                                 @"og:title": @"Sample Diary",
+        //                                 @"og:description": @"",
+        //                                 @"og:url": @"http://samples.ogp.me/325643821156611",
+        //                                 @"og:image": @[photo]
+        //                                 };
+        //    FBSDKShareOpenGraphObject *object = [FBSDKShareOpenGraphObject objectWithProperties:properties];
+        //    FBSDKShareAPI *shareAPI = [[FBSDKShareAPI alloc] init];
+        //    [shareAPI createOpenGraphObject:object];
+        //
+        //
+        //    FBSDKShareOpenGraphAction *action = [[FBSDKShareOpenGraphAction alloc] init];
+        //    action.actionType = @"welovephotomap:create";
+        //    [action setString:@"http://samples.ogp.me/325643821156611" forKey:@"diary"];
+        //    FBSDKShareOpenGraphContent *content = [[FBSDKShareOpenGraphContent alloc] init];
+        //    content.action = action;
+        //    content.previewPropertyName = @"diary";
+        //    //FBSDKShareAPI *shareAPI = [[FBSDKShareAPI alloc] init];
+        //    // optionally set the delegate
+        //    // shareAPI.delegate = self;
+        //    shareAPI.shareContent = content;
+        //    [shareAPI share];
+        
+        
+        
+        
+        FBSDKShareButton *button = [[FBSDKShareButton alloc] init];
+        button.shareContent = content;
+        
+        //Adjust the position of the button
+        CGPoint sharePosition;
+        sharePosition.x = 185;
+        sharePosition.y = 560;
+        button.center = sharePosition;
+        [self.view addSubview:button];
+        
+        
+        //    [FBSDKShareDialog showFromViewController:self
+        //                                 withContent:content
+        //                                    delegate:nil];
+        
+        // Share the link example
+        //    FBSDKShareLinkContent *content2 = [[FBSDKShareLinkContent alloc] init];
+        //    content2.contentURL = [NSURL URLWithString:@"http://developers.facebook.com"];
+        
+        
+        
+        NSURL *referenceURL = [info objectForKey:UIImagePickerControllerReferenceURL];
+        ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
+        [library assetForURL:referenceURL resultBlock:^(ALAsset *asset) {
+            ALAssetRepresentation *rep = [asset defaultRepresentation];
+            NSDictionary *metadata = rep.metadata;
+            //NSLog(@"This is the Exif: %@", metadata);
+            NSLog(@"%@",metadata.allKeys);
+            NSLog(@"%@",metadata);
+            // Print all the keys in the nsarray
+            //NSString *xxx = [metadata objectForKey:@""];
+            
+            // This is for getting the gps information;
+            NSDictionary *GPSInfo = [metadata valueForKey:@"{GPS}"];
+            
+            NSString *longtitu = [GPSInfo valueForKey:@"Longitude"];
+            NSString *latitu = [GPSInfo valueForKey:@"Latitude"];
+            laRef = [GPSInfo valueForKey:@"LatitudeRef"];
+            loRef = [GPSInfo valueForKey:@"LongitudeRef"];
+            
+            
+            NSLog(@"This is the Longtitude: %@", longtitu);
+            NSLog(@"This is the Latitude: %@", latitu);
+            
+            // Get the longtitude and the latitude.(Transmit + or - in it)
+            if ([laRef  isEqual: @"S"]) {
+                la =[NSString stringWithFormat:@"%@%@",@"-",latitu];
+            } else {
+                la = latitu;
+            };
+            if ([loRef  isEqual: @"W"]) {
+                lo =[NSString stringWithFormat:@"%@%@",@"-",longtitu];
+            } else {
+                lo = longtitu;
+            };
+            
+            
+            CLLocation *locationa = [[CLLocation alloc]
+                                     initWithLatitude:[la doubleValue]
+                                     longitude:[lo doubleValue]];
+            
+            self.geo = [[CLGeocoder alloc] init];
+            [self.geo reverseGeocodeLocation:locationa completionHandler:^(NSArray *placemarks, NSError *error){
+                if (error == nil && placemarks.count >0) {
+                    CLPlacemark *placemark = placemarks[0];
+                    NSLog(@"ahahahahahahahahahahahaha : %@", placemark.locality);
+                    realLocation = placemark.locality;
+                }
+                else if (error == nil && placemarks.count == 0){
+                    NSLog(@"No results were returnd.");
+                }
+                else if (error != nil) {
+                    NSLog(@"An error occurred = %@", error);
+                }
+            }];
+            
+            
+            
+            
+            
+            // This is for getting the time information;
+            NSDictionary *TimeInfo = [metadata valueForKey:@"{TIFF}"];
+            NSString *time = [TimeInfo valueForKey:@"DateTime"];
+            ti = time;
+            //
+            NSArray *timeArray = [ti componentsSeparatedByString: @":"];
+            NSLog(@"%@",timeArray[0]);
+            NSLog(@"%@",timeArray[1]);
+            NSLog(@"%@",timeArray[2]);
+            
+            year = timeArray[0];
+            month = timeArray[1];
+            day = [timeArray[2] substringToIndex:2];
+            
+            
+            
+            // This is for getting the steps
+            
+            NSString *dateString = [NSString stringWithFormat:@"%@%@%@%@%@ %@",day,@"-",month,@"-",year,@"00:00:00"];
+            NSLog(@"The beginning date is %@", dateString);
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            dateFormatter.dateFormat = @"dd-MM-yyyy HH:mm:ss";
+            NSDate *date3 = [dateFormatter dateFromString:dateString];
+            
+            NSString *dateString2 = [NSString stringWithFormat:@"%@%@%@%@%@ %@",day,@"-",month,@"-",year,@"23:59:59"];
+            NSLog(@"The end date is %@", dateString2);
+            NSDateFormatter *dateFormatter2 = [[NSDateFormatter alloc] init];
+            dateFormatter2.dateFormat = @"dd-MM-yyyy HH:mm:ss";
+            NSDate *date2 = [dateFormatter2 dateFromString:dateString2];
+            
+            //NSLog(@"%@",self.pedometer);
+            
+            //NSLog(@"%d", [CMPedometer isStepCountingAvailable]);
+            if (day != NULL && month != NULL && year != NULL) {
+                [self.pedometer queryPedometerDataFromDate:date3 toDate:date2 withHandler:^(CMPedometerData * _Nullable pedometerData, NSError * _Nullable error) {
+                    //NSLog(@"sss");
+                    //NSLog(@"%@",error);
+                    // this block is called for each live update
+                    [self updateLabels:pedometerData];
+                    NSLog(@"%@", pedometerData);
+                    
+                }];
+            }
+            
+            
+            
+            
+            // Using API to check the location information.
+            [self fetchLocation];
+            
+            //after fetch location 2 second, call fetchWeather(First get the location, then there is weather.)
+            [NSTimer scheduledTimerWithTimeInterval:2.5
+                                             target:self
+                                           selector:@selector(doSomethingWhenTimeIsUp2:)
+                                           userInfo:nil
+                                            repeats:NO];
+            
+            
+            
+            // Try to wait for the information to setup the textfield
+            
+            NSLog(@"%@",@"hhhh");
+            //self.photoInfor.text = xxx;
+            CGImageRef iref = [rep fullScreenImage] ;
+            if (iref) {
+                self.imageView.image = [UIImage imageWithCGImage:iref];
+            }
+        } failureBlock:^(NSError *error) {
+            // error handling
+        }];
+
     }
     
     
-    
-    // This is what is going to be shared on facebook
-    //UIImage *image = info[UIImagePickerControllerOriginalImage];
-    UIImage *image = chosenImage;
-    
-    
-    FBSDKSharePhoto *photo = [[FBSDKSharePhoto alloc] init];
-    photo.image = image;
-    photo.userGenerated = YES;
-    
-    FBSDKSharePhotoContent *content = [[FBSDKSharePhotoContent alloc] init];
-    content.photos = @[photo];
-    
-    
-    
-    
-//    NSURL *imageURL = [NSURL URLWithString:@"https://upload.wikimedia.org/wikipedia/commons/c/cd/Panda_Cub_from_Wolong,_Sichuan,_China.JPG"];
-//    FBSDKSharePhoto *photo = [FBSDKSharePhoto photoWithImageURL:imageURL userGenerated:YES];
-//    NSDictionary *properties = @{
-//                                 @"og:type": @"welovephotomap:diary",
-//                                 @"og:title": @"Sample Diary",
-//                                 @"og:description": @"",
-//                                 @"og:url": @"http://samples.ogp.me/325643821156611",
-//                                 @"og:image": @[photo]
-//                                 };
-//    FBSDKShareOpenGraphObject *object = [FBSDKShareOpenGraphObject objectWithProperties:properties];
-//    FBSDKShareAPI *shareAPI = [[FBSDKShareAPI alloc] init];
-//    [shareAPI createOpenGraphObject:object];
-//    
-//    
-//    FBSDKShareOpenGraphAction *action = [[FBSDKShareOpenGraphAction alloc] init];
-//    action.actionType = @"welovephotomap:create";
-//    [action setString:@"http://samples.ogp.me/325643821156611" forKey:@"diary"];
-//    FBSDKShareOpenGraphContent *content = [[FBSDKShareOpenGraphContent alloc] init];
-//    content.action = action;
-//    content.previewPropertyName = @"diary";
-//    //FBSDKShareAPI *shareAPI = [[FBSDKShareAPI alloc] init];
-//    // optionally set the delegate
-//    // shareAPI.delegate = self;
-//    shareAPI.shareContent = content;
-//    [shareAPI share];
-    
-    
-    
-    
-    FBSDKShareButton *button = [[FBSDKShareButton alloc] init];
-    button.shareContent = content;
-    
-    //Adjust the position of the button
-    CGPoint sharePosition;
-    sharePosition.x = 170;
-    sharePosition.y = 580;
-    button.center = sharePosition;
-    [self.view addSubview:button];
-    
-    
-//    [FBSDKShareDialog showFromViewController:self
-//                                 withContent:content
-//                                    delegate:nil];
-    
-    // Share the link example
-//    FBSDKShareLinkContent *content2 = [[FBSDKShareLinkContent alloc] init];
-//    content2.contentURL = [NSURL URLWithString:@"http://developers.facebook.com"];
-    
-    
-    
-    NSURL *referenceURL = [info objectForKey:UIImagePickerControllerReferenceURL];
-    ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
-    [library assetForURL:referenceURL resultBlock:^(ALAsset *asset) {
-        ALAssetRepresentation *rep = [asset defaultRepresentation];
-        NSDictionary *metadata = rep.metadata;
-        //NSLog(@"This is the Exif: %@", metadata);
-        NSLog(@"%@",metadata.allKeys);
-        NSLog(@"%@",metadata);
-        // Print all the keys in the nsarray
-        //NSString *xxx = [metadata objectForKey:@""];
-        
-        // This is for getting the gps information;
-        NSDictionary *GPSInfo = [metadata valueForKey:@"{GPS}"];
-        
-        NSString *longtitu = [GPSInfo valueForKey:@"Longitude"];
-        NSString *latitu = [GPSInfo valueForKey:@"Latitude"];
-        laRef = [GPSInfo valueForKey:@"LatitudeRef"];
-        loRef = [GPSInfo valueForKey:@"LongitudeRef"];
-        
-        
-        NSLog(@"This is the Longtitude: %@", longtitu);
-        NSLog(@"This is the Latitude: %@", latitu);
-        
-        // Get the longtitude and the latitude.(Transmit + or - in it)
-        if ([laRef  isEqual: @"S"]) {
-            la =[NSString stringWithFormat:@"%@%@",@"-",latitu];
-        } else {
-            la = latitu;
-        };
-        if ([loRef  isEqual: @"W"]) {
-            lo =[NSString stringWithFormat:@"%@%@",@"-",longtitu];
-        } else {
-            lo = longtitu;
-        };
-        
-        
-        CLLocation *locationa = [[CLLocation alloc]
-                                initWithLatitude:[la doubleValue]
-                                longitude:[lo doubleValue]];
-        
-        self.geo = [[CLGeocoder alloc] init];
-        [self.geo reverseGeocodeLocation:locationa completionHandler:^(NSArray *placemarks, NSError *error){
-            if (error == nil && placemarks.count >0) {
-                CLPlacemark *placemark = placemarks[0];
-                NSLog(@"ahahahahahahahahahahahaha : %@", placemark.locality);
-                realLocation = placemark.locality;
-            }
-            else if (error == nil && placemarks.count == 0){
-                NSLog(@"No results were returnd.");
-            }
-            else if (error != nil) {
-                NSLog(@"An error occurred = %@", error);
-            }
-        }];
-        
-        
-        
-        
-        
-        // This is for getting the time information;
-        NSDictionary *TimeInfo = [metadata valueForKey:@"{TIFF}"];
-        NSString *time = [TimeInfo valueForKey:@"DateTime"];
-        ti = time;
-        //
-        NSArray *timeArray = [ti componentsSeparatedByString: @":"];
-        NSLog(@"%@",timeArray[0]);
-        NSLog(@"%@",timeArray[1]);
-        NSLog(@"%@",timeArray[2]);
-        
-        year = timeArray[0];
-        month = timeArray[1];
-        day = [timeArray[2] substringToIndex:2];
-        
-        
-        
-        // This is for getting the steps
-        
-        NSString *dateString = [NSString stringWithFormat:@"%@%@%@%@%@ %@",day,@"-",month,@"-",year,@"00:00:00"];
-        NSLog(@"The beginning date is %@", dateString);
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        dateFormatter.dateFormat = @"dd-MM-yyyy HH:mm:ss";
-        NSDate *date3 = [dateFormatter dateFromString:dateString];
-        
-        NSString *dateString2 = [NSString stringWithFormat:@"%@%@%@%@%@ %@",day,@"-",month,@"-",year,@"23:59:59"];
-        NSLog(@"The end date is %@", dateString2);
-        NSDateFormatter *dateFormatter2 = [[NSDateFormatter alloc] init];
-        dateFormatter2.dateFormat = @"dd-MM-yyyy HH:mm:ss";
-        NSDate *date2 = [dateFormatter2 dateFromString:dateString2];
-        
-        //NSLog(@"%@",self.pedometer);
-        
-        //NSLog(@"%d", [CMPedometer isStepCountingAvailable]);
-        if (day != NULL && month != NULL && year != NULL) {
-            [self.pedometer queryPedometerDataFromDate:date3 toDate:date2 withHandler:^(CMPedometerData * _Nullable pedometerData, NSError * _Nullable error) {
-                //NSLog(@"sss");
-                //NSLog(@"%@",error);
-                // this block is called for each live update
-                [self updateLabels:pedometerData];
-                NSLog(@"%@", pedometerData);
-                
-            }];
-        }
-        
-        
-        
-        
-        // Using API to check the location information.
-        [self fetchLocation];
-        
-        //after fetch location 2 second, call fetchWeather(First get the location, then there is weather.)
-        [NSTimer scheduledTimerWithTimeInterval:2.0
-                                         target:self
-                                       selector:@selector(doSomethingWhenTimeIsUp2:)
-                                       userInfo:nil
-                                        repeats:NO];
-
-        
-        
-        // Try to wait for the information to setup the textfield
-        
-        
-        NSLog(@"%@",@"hhhh");
-        //self.photoInfor.text = xxx;
-        CGImageRef iref = [rep fullScreenImage] ;
-        if (iref) {
-            self.imageView.image = [UIImage imageWithCGImage:iref];
-        }
-    } failureBlock:^(NSError *error) {
-        // error handling
-    }];
-    
-    // This is tring to call the REST API
 }
 
 // This is for passing GPS location
@@ -616,7 +677,7 @@ static int judge = 0;
         text = [NSString stringWithFormat:@"%@ %@ %@", text, @"The time was ", ti];
     }
     
-    text = [NSString stringWithFormat:@"%@ %@ %@ %@", text, @"I walked", steps, @"steps."];
+    text = [NSString stringWithFormat:@"%@ %@ %@ %@", text, @"I walked", steps, @"steps on that day."];
     self.photoInfor.text = text;
 
     
@@ -624,7 +685,7 @@ static int judge = 0;
 
 - (void) doSomethingWhenTimeIsUp2:(NSTimer*)t {
     [self fetchWeather];
-    [NSTimer scheduledTimerWithTimeInterval:2.0
+    [NSTimer scheduledTimerWithTimeInterval:2.5
                                      target:self
                                    selector:@selector(doSomethingWhenTimeIsUp:)
                                    userInfo:nil
@@ -641,8 +702,6 @@ static int judge = 0;
     [picker dismissViewControllerAnimated:YES completion:NULL];
     
 }
-
-
 
 
 @end
