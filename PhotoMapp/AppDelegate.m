@@ -17,6 +17,7 @@
 
 @implementation AppDelegate
 
+// These functions are used for 3D touch (Reference: https://github.com/dakeshi/3D_Touch_HomeQuickAction)
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [NSThread sleepForTimeInterval:3.0];

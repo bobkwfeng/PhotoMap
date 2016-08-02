@@ -49,6 +49,8 @@ static NSString *steps;
 static int judge = 0;
 
 
+// These functions are trying to move the views up when keyboard pops out.
+// Reference: http://stackoverflow.com/questions/1247113/iphone-keyboard-covers-uitextfield
 - (void)textViewDidBeginEditing:(UITextView *)textField
 {
     NSLog(@"xxx");
@@ -78,6 +80,8 @@ static int judge = 0;
 
 
 
+
+
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range
  replacementText:(NSString *)text {
     
@@ -90,6 +94,7 @@ static int judge = 0;
 
 
 
+// These functions are used for pedometer. Reference: http://pinkstone.co.uk/how-to-access-the-step-counter-and-pedometer-data-in-ios-9/
 - (CMPedometer *)pedometerInitial {
     NSLog(@"aaaaaaaaaaa");
     if (!_pedometer) {
@@ -163,11 +168,12 @@ static int judge = 0;
 
 
 
+// This is the camera function, Reference: https://www.appcoda.com/ios-programming-camera-iphone-app/
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    // This is for the keyboard can disappear
     self.photoInfor.delegate = self;
     
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
@@ -203,6 +209,7 @@ static int judge = 0;
 
 
 
+// Reference: https://spring.io/guides/gs/consuming-rest-ios/
 // Get the location Geocode calling api,
 - (IBAction)fetchLocation;
 {
@@ -238,6 +245,7 @@ static int judge = 0;
 
 
 // Make sure the fetchWeather is called after the fetchLocation Method, because weather will need the geoCode information from fetchLocation.
+// Reference : https://spring.io/guides/gs/consuming-rest-ios/
 - (IBAction)fetchWeather;
 {
     // Here is the code to make a restful api call
@@ -307,6 +315,7 @@ static int judge = 0;
     // Dispose of any resources that can be recreated.
 }
 
+// This is the camera function, Reference: https://www.appcoda.com/ios-programming-camera-iphone-app/
 - (IBAction)takePhoto:(UIButton *)sender {
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.delegate = self;
@@ -317,6 +326,7 @@ static int judge = 0;
     judge = 1;
 }
 
+// This is the camera function, Reference: https://www.appcoda.com/ios-programming-camera-iphone-app/
 - (void)takePhoto2 {
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.delegate = self;
@@ -327,6 +337,7 @@ static int judge = 0;
     judge = 1;
 }
 
+// This is the camera function, Reference: https://www.appcoda.com/ios-programming-camera-iphone-app/
 - (IBAction)selectPhoto:(UIButton *)sender {
     
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
@@ -339,7 +350,7 @@ static int judge = 0;
 }
 
 
-// GPS helper method
+// GPS helper method, reference: http://stackoverflow.com/questions/4152003/how-can-i-get-current-location-from-user-in-ios
 
 - (NSDictionary *) gpsDictionaryForLocation:(CLLocation *)location
 {
@@ -399,6 +410,7 @@ static int judge = 0;
     [picker dismissViewControllerAnimated:YES completion:NULL];
     
     // judge == 1 means this photo is taken from camera. Save the image to gallary
+    // reference : http://stackoverflow.com/questions/7965299/write-uiimage-along-with-metadata-exif-gps-tiff-in-iphones-photo-library
     if (judge == 1) {
         
         
