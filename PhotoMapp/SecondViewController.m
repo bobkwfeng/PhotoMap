@@ -317,6 +317,16 @@ static int judge = 0;
     judge = 1;
 }
 
+- (void)takePhoto2 {
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker.delegate = self;
+    picker.allowsEditing = YES;
+    picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    
+    [self presentViewController:picker animated:YES completion:NULL];
+    judge = 1;
+}
+
 - (IBAction)selectPhoto:(UIButton *)sender {
     
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
@@ -663,24 +673,28 @@ static int judge = 0;
 - (void) doSomethingWhenTimeIsUp:(NSTimer*)t {
     
     // Put the information is the textField
-    NSString *text = @"This photo contains precious memory. I still remember on that day the weather is";
-    text = [NSString stringWithFormat:@"%@ %@%@", text, weather, @"."];
+    NSString *text = @"This photo contains precious memory. I still remember on that day the weather was";
+    if (weather == NULL) {
+        text = [NSString stringWithFormat:@"%@ %@%@", text, @"uncertain", @"."];
+    } else {
+        text = [NSString stringWithFormat:@"%@ %@%@", text, weather, @"."];
+    }
+    
     if (lo == NULL || la == NULL) {
-        text = [NSString stringWithFormat:@"%@ %@", text, @"Although I don't know where is was taken."];
+        text = [NSString stringWithFormat:@"%@ %@", text, @"Although I don't know where it was taken."];
     } else {
         text = [NSString stringWithFormat:@"%@ %@ %@%@", text, @"It was taken at",realLocation,@"."];
     }
     
     if (ti == NULL) {
-        text = [NSString stringWithFormat:@"%@ %@", text, @"On the other hand I don't know when it were took."];
+        text = [NSString stringWithFormat:@"%@ %@", text, @"On the other hand I don't know when I took it."];
     } else {
-        text = [NSString stringWithFormat:@"%@ %@ %@", text, @"The time was ", ti];
+        text = [NSString stringWithFormat:@"%@ %@ %@%@", text, @"The time was ", ti,@"."];
     }
     
     text = [NSString stringWithFormat:@"%@ %@ %@ %@", text, @"I walked", steps, @"steps on that day."];
     self.photoInfor.text = text;
 
-    
 }
 
 - (void) doSomethingWhenTimeIsUp2:(NSTimer*)t {

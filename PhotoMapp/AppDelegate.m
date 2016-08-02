@@ -8,6 +8,8 @@
 
 #import "AppDelegate.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import "SecondViewController.h"
+#import "MapViewController.h"
 
 @interface AppDelegate ()
 
@@ -17,8 +19,63 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [NSThread sleepForTimeInterval:3.0];
     // Override point for customization after application launch.
-    return YES;
+    
+    
+    // return YES;
+    
+    
+    
+    self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
+    
+    
+    // Override point for customization after application launch.
+    BOOL shouldPerformAdditionalDelegateHandling = YES;
+    
+    
+    // Check API availiability
+    // UIApplicationShortcutItem is available in iOS 9 or later.
+    if([[UIApplicationShortcutItem class] respondsToSelector:@selector(new)]){
+        
+        [self configDynamicShortcutItems];
+        
+        // If a shortcut was launched, display its information and take the appropriate action
+        UIApplicationShortcutItem *shortcutItem = [launchOptions objectForKeyedSubscript:UIApplicationLaunchOptionsShortcutItemKey];
+        NSLog(shortcutItem);
+        
+        if(shortcutItem)
+        {
+            NSLog(@"eee");
+            // When the app launch at first time, this block can not called.
+            
+            [self handleShortCutItem:shortcutItem];
+            
+            // This will block "performActionForShortcutItem:completionHandler" from being called.
+            shouldPerformAdditionalDelegateHandling = NO;
+            
+            
+        }else{
+            // normal app launch process without quick action
+            
+            [self launchWithoutQuickAction];
+            
+        }
+        
+    }else{
+        
+        // Less than iOS9 or later
+        
+        [self launchWithoutQuickAction];
+        
+    }
+    
+    
+    return shouldPerformAdditionalDelegateHandling;
+
+    
+    
+    
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -53,5 +110,76 @@
                                                 sourceApplication:sourceApplication
                                                        annotation:annotation];
 }
+
+
+// This is for 3d touch
+
+-(void)launchWithoutQuickAction{
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    
+    SecondViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"tabView"];
+    
+    self.window.rootViewController = vc;
+    
+    [self.window makeKeyAndVisible];
+    
+}
+
+
+- (void)configDynamicShortcutItems {
+    
+    // config image shortcut items
+    // if you want to use custom image in app bundles, use iconWithTemplateImageName method
+    UIApplicationShortcutIcon *shortcutFavoriteIcon = [UIApplicationShortcutIcon iconWithType:UIApplicationShortcutIconTypeLove];
+    
+    UIApplicationShortcutItem *shortcutSearch = [[UIApplicationShortcutItem alloc]
+                                                 initWithType:@"com.sarangbang.QuickAction.Search"
+                                                 localizedTitle:@"Team 15 Enjoy! :)"
+                                                 localizedSubtitle:nil
+                                                 icon:shortcutFavoriteIcon
+                                                 userInfo:nil];
+    
+    
+    
+    // add all items to an array
+    NSArray *items = @[shortcutSearch];
+    
+    // add the array to our app
+    [UIApplication sharedApplication].shortcutItems = items;
+}
+
+
+
+- (BOOL)handleShortCutItem : (UIApplicationShortcutItem *)shortcutItem{
+    
+    BOOL handled = NO;
+    
+    NSString *bundleId = [NSBundle mainBundle].bundleIdentifier;
+    
+    NSString *shortcutSearch = [NSString stringWithFormat:@"%@.Search", bundleId];
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    
+    
+    if ([shortcutItem.type isEqualToString:shortcutSearch]) {
+        handled = YES;
+        NSLog(@"xdxdxd");
+        SecondViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"View"];
+        self.window.rootViewController = vc;
+        [self.window makeKeyAndVisible];
+    }
+    return handled;
+}
+
+
+- (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler{
+    
+    BOOL handledShortCutItem = [self handleShortCutItem:shortcutItem];
+    
+    completionHandler(handledShortCutItem);
+}
+
+
 
 @end
